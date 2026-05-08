@@ -1,4 +1,10 @@
-import { getYesterday } from "../utils/getYesterday";
+const getYesterday = () => {
+  const d = new Date();
+  d.setDate(d.getDate());
+  return d.toISOString().split("T")[0];
+};
+
+const yesterday = getYesterday();
 
 export const initialData = {
   meta: {

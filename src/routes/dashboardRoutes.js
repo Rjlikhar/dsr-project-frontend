@@ -1,5 +1,5 @@
 import AppPassword from "../layouts/components/AppPassword";
-import CreateDSR from "../feature/dsr/pages/CreateDsr";
+import CreateDSR from "../feature/dsr/pages/CreateDSR/CreateDsr";
 import Dashboard from "../feature/dsr/pages/Dashboard";
 
 export const dashboardRoutes = [

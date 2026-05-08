@@ -4,8 +4,7 @@ import { dsrService } from "../services/dsrService";
 
 export const useDsr = () => {
   const [data, setData] = useState(initialData);
-  const [toast, setToast] = useState({ show: false, msg: "",code:"" });
-  const [isEdit, setIsEdit] = useState(false);
+  const [toast, setToast] = useState({ show: false, msg: "",code:"" }); 
   const challenges = data.challenges;
   const [loader,setLoader]=useState(false)
 
@@ -223,9 +222,7 @@ export const useDsr = () => {
     setPath,
     updateTask,
     toast,
-    setToast,
-    isEdit,
-    setIsEdit,
+    setToast, 
     addChallenge,
     deleteChallenge,
     updateChallenge,
