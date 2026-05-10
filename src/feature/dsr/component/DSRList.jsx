@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { STATUS_CONFIG_DSRLIST } from "../constant/statusConfig";
 import DSRDetails from "./DSRDetails";
 import { fmt } from "../utils/formateDate";
-import { dummyDSRList } from "../constant/dummyDSRList";
+import { FiAlertCircle } from "react-icons/fi";
+import DrsRequestModel from "./DsrRequestModel";
 
 export function getDSRStatus(tasks = []) {
   if (tasks.every((t) => t.status === "DONE")) return "DONE";
@@ -20,6 +21,7 @@ export default function DSRList({
   setEndDate,
 }) {
   const [selected, setSelected] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const filtered = dsrList.filter((dsr) => {
     if (startDate && dsr.data.meta.date < startDate) return false;
     if (endDate && dsr.data.meta.date > endDate) return false;
@@ -29,30 +31,44 @@ export default function DSRList({
   return (
     <>
       {/* ── Date Filters ── */}
-      <div className="flex items-center gap-2 flex-wrap mb-4">
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
-        />
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
-        />
-        {(startDate || endDate) && (
-          <button
-            onClick={() => {
-              setStartDate("");
-              setEndDate("");
-            }}
-            className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500"
-          >
-            Reset
-          </button>
-        )}
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+        {/* Left Side */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+
+          {(startDate || endDate) && (
+            <button
+              onClick={() => {
+                setStartDate("");
+                setEndDate("");
+              }}
+              className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+
+        {/* Right Side */}
+        <button
+          onClick={() => setOpenModal(true)}
+          className="h-9 px-5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold flex items-center gap-2 transition"
+        >
+          <FiAlertCircle className="w-4 h-4" />
+          Request Missed DSR
+        </button>
       </div>
 
       {/* ── DSR List ── */}
@@ -112,7 +128,7 @@ export default function DSRList({
           );
         })}
       </div>
-
+      <DrsRequestModel openModal={openModal} setOpenModal={setOpenModal} />
       <DSRDetails selected={selected} onClose={() => setSelected(null)} />
     </>
   );
