@@ -19,134 +19,6 @@ export const useDsr = () => {
       return next;
     });
 
-  const updateTask = useCallback(
-    (i, task) =>
-      setData((prev) => {
-        const tasks = [...prev.tasks];
-        tasks[i] = task;
-        return { ...prev, tasks };
-      }),
-    [],
-  );
-
-  const addChallenge = () => {
-    setData({
-      ...data,
-      challenges: [
-        ...data.challenges,
-        { challenge: "", status: "NOT_RESOLVED", resolution: "" },
-      ],
-    });
-  };
-
-  //  Delete row
-  const deleteChallenge = (index) => {
-    const updated = challenges.filter((_, i) => i !== index);
-    setData({
-      ...data,
-      challenges: updated,
-    });
-  };
-
-  //  Update field
-  const updateChallenge = (index, field, value) => {
-    const updated = [...challenges];
-    updated[index][field] = value;
-
-    //  Clear resolution if not solved
-    if (field === "status" && value !== "RESOLVED") {
-      updated[index].resolution = "";
-    }
-
-    setData({
-      ...data,
-      challenges: updated,
-    });
-  };
-
-  // ➕ Add Reference
-  const addReference = () => {
-    setData((prev) => ({
-      ...prev,
-      references: [...prev.references, ""],
-    }));
-  };
-
-  // ❌ Delete Reference
-  const deleteReference = (index) => {
-    setData((prev) => ({
-      ...prev,
-      references: prev.references.filter((_, i) => i !== index),
-    }));
-  };
-
-  // ✏️ Update Reference
-  const updateReference = (index, value) => {
-    const updated = [...data.references];
-    updated[index] = value;
-
-    setData((prev) => ({
-      ...prev,
-      references: updated,
-    }));
-  };
-
-  const addCommit = () => {
-    setData((prev) => ({
-      ...prev,
-      commits: [...prev.commits, ""],
-    }));
-  };
-
-  const deleteCommit = (index) => {
-    setData((prev) => ({
-      ...prev,
-      commits: prev.commits.filter((_, i) => i !== index),
-    }));
-  };
-
-  const updateCommit = (index, value) => {
-    const updated = [...data.commits];
-    updated[index] = value;
-
-    setData((prev) => ({
-      ...prev,
-      commits: updated,
-    }));
-  };
-
-  const addNextTask = () => {
-    setData((prev) => ({
-      ...prev,
-      nextPlan: {
-        ...prev.nextPlan,
-        tasks: [...prev.nextPlan.tasks, ""],
-      },
-    }));
-  };
-
-  const deleteNextTask = (index) => {
-    setData((prev) => ({
-      ...prev,
-      nextPlan: {
-        ...prev.nextPlan,
-        tasks: prev.nextPlan.tasks.filter((_, i) => i !== index),
-      },
-    }));
-  };
-
-  const updateNextTask = (index, value) => {
-    const updated = [...data.nextPlan.tasks];
-    updated[index] = value;
-
-    setData((prev) => ({
-      ...prev,
-      nextPlan: {
-        ...prev.nextPlan,
-        tasks: updated,
-      },
-    }));
-  };
 
   const DSR_STORAGE_KEY = "dsr_reports";
 
@@ -220,21 +92,8 @@ export const useDsr = () => {
     data,
     setData,
     setPath,
-    updateTask,
     toast,
     setToast, 
-    addChallenge,
-    deleteChallenge,
-    updateChallenge,
-    addReference,
-    deleteReference,
-    updateReference,
-    addCommit,
-    deleteCommit,
-    updateCommit,
-    addNextTask,
-    deleteNextTask,
-    updateNextTask,
     handleSave,
     handleSend,
     loader,
