@@ -1,3 +1,5 @@
+import { FiShield } from "react-icons/fi";
+
 const getLabel = (path) => {
   switch (path) {
     case "/":
@@ -6,6 +8,8 @@ const getLabel = (path) => {
       return "Create DSR";
     case "/profile":
       return "Profile";
+    case "/admin":
+      return "Admin"
     default:
       return "Page";
   }
@@ -39,6 +43,11 @@ const getIcon = (path) => {
           <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
             d="M16 7a4 4 0 11-8 0M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
+      );
+
+    case "/admin":
+      return (
+        <FiShield className="w-4 h-4" />
       );
 
     default:
