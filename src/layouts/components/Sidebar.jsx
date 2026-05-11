@@ -27,13 +27,6 @@ export default function Sidebar({ isOpen, onClose, user }) {
 
   return (
     <>
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed top-[66px] left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm z-40 md:hidden "
-          onClick={onClose}
-        />
-      )}
 
       {/* Sidebar */}
       <aside
@@ -43,7 +36,9 @@ export default function Sidebar({ isOpen, onClose, user }) {
           border-r border-indigo-100
           shadow-[4px_0_24px_rgba(99,102,241,0.08)]
           transition-transform duration-300
+          z-40
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
         `}
       >
         {/* Navigation */}

@@ -159,13 +159,13 @@ const DSRHeroHeader = ({ data, setPath }) => {
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-3">
+        <div className="md:flex items-center gap-3">
           {/* Group Select */}
           <div className="relative">
             <select
               value={selectedGroup}
               onChange={handleGroupChange}
-              className=" h-11 rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 shadow-sm outline-none transition-all duration-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10"
+              className=" h-11 w-full rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 shadow-sm outline-none transition-all duration-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10"
             >
               <option value="">Select Group</option>
               {groups?.map((group) => (
@@ -183,7 +183,7 @@ const DSRHeroHeader = ({ data, setPath }) => {
               value={data.meta?.date}
               onChange={(e) => handleDateChange(e.target.value)}
               className="
-            h-11 rounded-xl border border-slate-200
+            h-11 w-full rounded-xl border border-slate-200
             bg-white px-4 text-sm text-slate-700
             shadow-sm outline-none
             transition-all duration-200

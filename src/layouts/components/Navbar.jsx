@@ -99,7 +99,7 @@ export default function Navbar({ onToggle }) {
       <div className="relative">
         <button
           onClick={() => setDropdownOpen((prev) => !prev)}
-          className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-2.5 sm:px-3.5 px-1.5 py-1.5 rounded-full border transition-all duration-200 cursor-pointer"
           style={{
             background: "#f0f7ff",
             borderColor: "rgba(59,130,246,0.15)",
@@ -116,13 +116,13 @@ export default function Navbar({ onToggle }) {
           >{getInitials(user.name)}</div>
           
           {/* Name & Role */}
-          <div className="flex flex-col leading-tight text-left">
+          <div className={`hidden lg:flex flex-col leading-tight text-left`}>
             <span className="text-[13px] font-semibold text-slate-800">{user.name}</span>
           </div>
 
           {/* Chevron */}
           <span
-            className={`ml-1 transition-transform duration-200 ${
+            className={`hidden lg:flex ml-1 transition-transform duration-200 ${
               dropdownOpen ? "rotate-180" : ""
             }`}
           >

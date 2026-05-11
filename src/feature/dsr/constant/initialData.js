@@ -33,6 +33,7 @@ export const initialData = {
     },
   },
   tasks: [],
+  challenges: [],
   references: [],
   commits: [],
   nextPlan: { date: "", tasks: [] },

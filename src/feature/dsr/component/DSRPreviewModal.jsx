@@ -164,13 +164,13 @@ export function buildEmailHTML(data) {
     <tr>
       ${thCell("Mentor", "width: 45%;")}
       <td colspan="2" style="border: ${borderStyle}; ${cellPad} font-family: Arial, sans-serif; font-size: 11pt;">
-        <a href="mailto:${data.meta.mentorEmail}" style="color: #1155cc;">${data.meta.mentor}</a>
+        <span>${data.meta.mentor}</span>
       </td>
     </tr>
     <tr>
       ${thCell("Code Reviewer")}
       <td colspan="2" style="border: ${borderStyle}; ${cellPad} font-family: Arial, sans-serif; font-size: 11pt;">
-        <a href="mailto:${data.meta.mentorEmail}" style="color: #1155cc;">${data.meta.codeReviewer}</a>
+        <span>${data.meta.codeReviewer}</span>
       </td>
     </tr>
     <tr>

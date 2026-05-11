@@ -6,13 +6,14 @@ export function StatCard({ label, value, sub, accent }) {
     purple: "from-violet-400 to-violet-600",
   };
   return (
-      <div className="bg-white rounded-2xl shadow p-5 flex flex-col gap-1 relative overflow-hidden">
+      <div className="relative isolate bg-white rounded-2xl shadow p-5 gap-1 overflow-hidden">
         <div
-          className={`absolute top-0 right-0 w-20 h-20 rounded-bl-full opacity-10 bg-gradient-to-br ${colors[accent] || colors.blue}`}
+          className={` absolute top-0 right-0 w-16 h-16 rounded-bl-full opacity-10 pointer-events-none z-0 bg-gradient-to-br ${colors[accent] || colors.blue}
+  `}
         />
-        <p className="text-sm text-slate-400">{label}</p>
-        <p className="text-3xl font-bold text-slate-800">{value}</p>
-        {sub && <p className="text-xs text-slate-400 mt-1">{sub}</p>}
+        <p className="relative z-10 text-sm text-slate-400">{label}</p>
+        <p className="relative z-10 text-3xl font-bold text-slate-800">{value}</p>
+        {sub && <p className="relative z-10 text-xs text-slate-400 mt-1">{sub}</p>}
       </div>
     );
   }
