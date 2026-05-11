@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { STATUS_CONFIG_DSRLIST } from "../../../constant/statusConfig";
 import { fmt } from "../../../utils/formateDate";
 import DSRDetails from "./DSRDetails";
+import { CiBellOn } from "react-icons/ci";
+import DrsRequestModel from "../../../component/DsrRequestModel";
 
 export function getDSRStatus(tasks = []) {
   if (tasks.every((t) => t.status === "DONE")) return "DONE";
@@ -19,6 +21,7 @@ export default function DSRList({
   setEndDate,
 }) {
   const [selected, setSelected] = useState(null);
+  const [openModal, setOpenModal]=useState(false)
   const filtered = dsrList.filter((dsr) => {
     if (startDate && dsr.data.meta.date < startDate) return false;
     if (endDate && dsr.data.meta.date > endDate) return false;
@@ -28,32 +31,43 @@ export default function DSRList({
   return (
     <>
       {/* ── Date Filters ── */}
-      <div className="flex items-center gap-2 flex-wrap mb-4">
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
-        />
-        <input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
-        />
-        {(startDate || endDate) && (
-          <button
-            onClick={() => {
-              setStartDate("");
-              setEndDate("");
-            }}
-            className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500"
-          >
-            Reset
-          </button>
-        )}
-      </div>
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
 
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+
+          {(startDate || endDate) && (
+            <button
+              onClick={() => {
+                setStartDate("");
+                setEndDate("");
+              }}
+              className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+
+        <button
+          onClick={() => setOpenModal(true)}
+          className="flex items-center gap-2 px-4 py-1.5 text-sm font-bold bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition"
+        >
+          <CiBellOn />
+          DSR Request Approval
+        </button>
+      </div>
       {/* ── DSR List ── */}
       <div className="flex flex-col gap-2">
         {filtered.length === 0 && (
@@ -111,7 +125,7 @@ export default function DSRList({
           );
         })}
       </div>
-
+      <DrsRequestModel openModal={openModal} setOpenModal={setOpenModal}/>
       <DSRDetails selected={selected} onClose={() => setSelected(null)} />
     </>
   );
