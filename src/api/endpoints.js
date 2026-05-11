@@ -20,7 +20,12 @@ export const API_ENDPOINTS = {
   MISSED_DSR_REQUEST: {
     SEND_REQUEST: "/missed-dsr-requests",
     GET_ALL: "/missed-dsr-requests",
-    UPDATE_STATUS: (id) =>`/missed-dsr-requests/${id}/status`,
+    UPDATE_STATUS: (id) => `/missed-dsr-requests/${id}/status`,
     NOTIFICATIONS: "/missed-dsr-notifications",
+  },
+
+  GROUPS: {
+    GET_ALL: "/groups",
+    UPDATE: `/user/group`,
   },
 };

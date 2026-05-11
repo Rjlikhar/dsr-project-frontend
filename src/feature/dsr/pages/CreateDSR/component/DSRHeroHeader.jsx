@@ -5,7 +5,33 @@ import { dsrService } from "../../../services/dsrService";
 const DSRHeroHeader = ({ data, setPath }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [allowedDates, setAllowedDates] = useState([]);
-  
+  const [groups, setGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const response = await dsrService.getGroups();
+        setGroups(response.data);
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
+    };
+    fetchGroups();
+  }, []);
+
+  const handleGroupChange = async (e) => {
+    const groupId = e.target.value;
+    setSelectedGroup(groupId);
+    try {
+      await dsrService.updateGroup({group_id: groupId});
+
+      console.log("Group updated successfully");
+    } catch (error) {
+      console.error("Failed to update group:", error);
+    }
+  };
+
   const fmtDate = (d) => {
     try {
       return new Date(d).toLocaleDateString("en-GB", {
@@ -36,7 +62,9 @@ const DSRHeroHeader = ({ data, setPath }) => {
     try {
       const response = await dsrService.getMissedDsrNotifications();
       if (response.status) {
-        const approvedDates = response.data.map((item) =>formatDate(item.request_date));
+        const approvedDates = response.data.map((item) =>
+          formatDate(item.request_date),
+        );
         setAllowedDates(approvedDates);
       }
     } catch (error) {
@@ -50,9 +78,9 @@ const DSRHeroHeader = ({ data, setPath }) => {
 
   const handleDateChange = (selectedDate) => {
     const currentDate = getCurrentDate();
-    console.log("currentDate",selectedDate)
+    console.log("currentDate", selectedDate);
     const isApprovedDate = allowedDates.includes(selectedDate);
-    console.log("isApprovedDate",isApprovedDate)
+    console.log("isApprovedDate", isApprovedDate);
     if (selectedDate !== currentDate && !isApprovedDate) {
       return;
     }
@@ -60,7 +88,7 @@ const DSRHeroHeader = ({ data, setPath }) => {
     setPath(["meta", "date"], selectedDate);
   };
 
-   const formatDate = (date) => {
+  const formatDate = (date) => {
     if (!date) return "";
 
     return new Date(date).toISOString().split("T")[0];
@@ -93,7 +121,7 @@ const DSRHeroHeader = ({ data, setPath }) => {
 
           {/* Title */}
           <div>
-            <h1 className="text-[26px] font-black leading-tight tracking-tight text-slate-800">
+            <h1 className="text-[20px] font-black leading-tight tracking-tight text-slate-800">
               Daily Status Report
             </h1>
 
@@ -106,10 +134,26 @@ const DSRHeroHeader = ({ data, setPath }) => {
 
         {/* Right Controls */}
         <div className="flex items-center gap-3">
+          {/* Group Select */}
+          <div className="relative">
+            <select
+              value={selectedGroup}
+              onChange={handleGroupChange}
+              className=" h-11 rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 shadow-sm outline-none transition-all duration-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10"
+            >
+              <option value="">Select Group</option>
+              {groups?.map((group) => (
+                <option key={group.id} value={group.id}>
+                  {group.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* Date Picker */}
           <div className="relative">
             <input
               type="date"
+              x
               value={data.meta?.date}
               onChange={(e) => handleDateChange(e.target.value)}
               className="
