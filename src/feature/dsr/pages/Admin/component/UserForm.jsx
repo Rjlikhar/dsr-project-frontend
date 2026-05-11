@@ -6,35 +6,30 @@ import {
   FiUserPlus,
   FiUsers,
 } from "react-icons/fi";
+import { signupUser } from "../../../../auth/services/authServices";
 
 const ROLES = [
-  "Intern",
-  "Trainee",
-  "Developer",
-  "Senior Dev",
-  "Team Lead",
   "Admin",
+  "Employee",
+  "Mentor",
+  "Reviewer"
 ];
 
 const DEPARTMENTS = [
-  "Engineering",
-  "Product",
-  "Design",
+  "Development",
+  "Testing",
+  "Content Creater",
+  "Sales",
   "Marketing",
-  "Operations",
-  "HR",
+  "Application Integration"
 ];
 
 const defaultForm = {
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   password: "",
   department: "",
-  role: "Trainee",
-  mentor: "",
-  codeReviewer: "",
-  bootcampDay: "",
+  role: "Trainee"
 };
 
 export default function UserForm() {
@@ -53,9 +48,7 @@ export default function UserForm() {
 
   const handleSubmit = async () => {
     // TODO:
-    // await adminService.createUser(form)
-
-    console.log(form);
+    await signupUser(form)
 
     setSuccess(true);
 
@@ -92,25 +85,14 @@ export default function UserForm() {
       </div>
 
       {/* Name */}
-      <div className="grid grid-cols-2 gap-4">
-        <Field label="First name">
+      <div className="grid gap-4">
+        <Field label="Name">
           <input
             className={inp}
-            placeholder="Rahul"
-            value={form.firstName}
+            placeholder="Rahul Sharma"
+            value={form.name}
             onChange={(e) =>
-              set("firstName", e.target.value)
-            }
-          />
-        </Field>
-
-        <Field label="Last name">
-          <input
-            className={inp}
-            placeholder="Sharma"
-            value={form.lastName}
-            onChange={(e) =>
-              set("lastName", e.target.value)
+              set("name", e.target.value)
             }
           />
         </Field>
@@ -156,7 +138,7 @@ export default function UserForm() {
 
       <SectionDivider label="Organisation details" />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid  gap-4">
         <Field label="Department">
           <div className="relative">
             <select
@@ -175,19 +157,6 @@ export default function UserForm() {
 
             <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
-        </Field>
-
-        <Field label="Bootcamp day">
-          <input
-            className={inp}
-            type="number"
-            min="1"
-            placeholder="1"
-            value={form.bootcampDay}
-            onChange={(e) =>
-              set("bootcampDay", e.target.value)
-            }
-          />
         </Field>
       </div>
 
@@ -213,32 +182,10 @@ export default function UserForm() {
 
       <SectionDivider
         icon={<FiUsers />}
-        label="Assigned contacts"
+        label="Submit Details"
       />
 
-      <div className="grid grid-cols-2 gap-4">
-        <Field label="Mentor">
-          <input
-            className={inp}
-            placeholder="Mentor name"
-            value={form.mentor}
-            onChange={(e) =>
-              set("mentor", e.target.value)
-            }
-          />
-        </Field>
-
-        <Field label="Code reviewer">
-          <input
-            className={inp}
-            placeholder="Reviewer name"
-            value={form.codeReviewer}
-            onChange={(e) =>
-              set("codeReviewer", e.target.value)
-            }
-          />
-        </Field>
-      </div>
+      
 
       {/* Footer */}
       <div className="flex justify-end gap-3 mt-6 pt-5 border-t border-slate-100">
