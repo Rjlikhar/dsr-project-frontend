@@ -25,12 +25,12 @@ export function saveUsers(users) {
 
 // Signup
 export async function signupUser(formData) {
-  console.log(formData);
   return authRepository.register({
     name: formData.name.trim(),
     email: formData.email.trim().toLowerCase(),
     password: formData.password.trim(),
-    // department: formData.department,
+    department: formData.department.trim(),
+    role:formData.role.trim()
   });
 }
 

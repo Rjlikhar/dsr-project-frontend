@@ -31,4 +31,64 @@ export const dsrService = {
   async sendDsr(payload) {
     return await dsrRepository.sendDsr(payload);
   },
+
+  async sendDsrApprovalRequest(payload) {
+    try {
+      const response = await dsrRepository.sendDsrApprovalRequest(payload);
+
+      return response.data;
+    } catch (error) {
+      console.error("Failed to send missed DSR request:", error);
+
+      throw error;
+    }
+  },
+
+  async getAllMissedDsrRequests() {
+    try {
+      const response = await dsrRepository.getAllDsrRequest();
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching missed DSR requests:", error);
+
+      throw error;
+    }
+  },
+
+  async updateMissedDsrStatus(id, status) {
+    try {
+      const response = await dsrRepository.updateStatus(id, status);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating missed DSR status:", error);
+
+      throw error;
+    }
+  },
+
+  async getMissedDsrNotifications() {
+    try {
+      const response = await dsrRepository.getMissedDsrNotifications();
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching missed DSR notifications:", error);
+
+      throw error;
+    }
+  },
+
+  async getGroups() {
+    const res = await dsrRepository.getGroups();
+    return res.data;
+  },
+
+
+  // Update group
+  async updateGroup(payload){
+    console.log(payload);
+    const res = await dsrRepository.updateGroup(payload);
+    return res.data;
+  },
 };

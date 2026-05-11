@@ -6,6 +6,8 @@ import { getAverageScore } from "../utils/getProductiveAndImpactScore";
 import { getDsrCount } from "../utils/getDsrCount";
 import { dsrService } from "../services/dsrService";
 import FullScreenLoader from "../../../component/common/Loader";
+import { FiAlertCircle } from "react-icons/fi";
+import Notification, { Toast } from "../../../component/common/Toast";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -25,6 +27,10 @@ export default function Dashboard() {
   const [endDate, setEndDate] = useState("");
   const DSR_STORAGE_KEY = "dsr_reports";
   const [loader,setLoader]=useState(false)
+  const [openModal, setOpenModal] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [show, setShow] = useState(true);
+
 
   useEffect(() => {
     const fetchDsrs = async () => {
@@ -68,6 +74,33 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      setLoader(true);
+
+      const response = await dsrService.getMissedDsrNotifications();
+
+      if (response.status) {
+        setNotifications(response.data);
+      }
+    } catch (error) {
+      console.error("Notification Fetch Error:", error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const handleClose = (id) => {
+    setNotifications((prev) =>
+      prev.filter((item) => item.id !== id)
+    );
+  };
+  
+
   // ── Stats ──────────────────────────────────────────────────────────────
   const now = new Date();
 
@@ -89,9 +122,23 @@ export default function Dashboard() {
   // Avg Project Impact Score
   const avgImpactScore = getAverageScore(dsrList, "impact", startDate, endDate);
 
+   const formatDate = (date) => {
+    if (!date) return "";
+
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   return (
     <>
     <FullScreenLoader loading={loader}/>
+      {notifications.map((item) => (
+        <Notification
+          key={item.id}
+          show={show}
+          message={`Your missed DSR request for ${formatDate(item.request_date)} was approved`}
+          onClose={() => handleClose(item.id)}
+        />
+      ))}
     <div className="flex-1 flex flex-col min-w-0">
       {/* Page Content */}
       <div className="w-full transition-all duration-300">
@@ -105,6 +152,7 @@ export default function Dashboard() {
               Here's your Daily Status Report overview.
             </p>
           </div>
+           
 
           {/* "Add DSR today" CTA banner */}
           {!hasTodayDSR && now.getDay() !== 0 && (

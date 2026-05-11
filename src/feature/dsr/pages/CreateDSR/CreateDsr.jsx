@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../../utils/storage";
 import { STATUS_META } from "../../constant/status";
-import { fmtDate } from "../../utils/formateDate";
 import Section from "../../../../component/common/Section";
 import { ScoreSlider } from "../../component/ScoreSlider";
 import { TimeBar } from "../../component/TimeBar";
@@ -35,19 +34,6 @@ export default function CreateDSR() {
     setPath,
     setToast,
     toast,
-    updateTask,
-    addChallenge,
-    deleteChallenge,
-    updateChallenge,
-    addReference,
-    deleteReference,
-    updateReference,
-    addCommit,
-    deleteCommit,
-    updateCommit,
-    addNextTask,
-    deleteNextTask,
-    updateNextTask,
     handleSave,
     handleSend,
     loader,
@@ -61,74 +47,74 @@ export default function CreateDSR() {
   const emailHTML = buildEmailHTML(data);
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  useEffect(() => {
-    const fetchLastDsr = async () => {
-      try {
-        setLoader(true)
-        const allDsrs = await dsrService.getAllDsrs();
-        const userDsrs = allDsrs.data.filter((dsr) => dsr.user_id === user?.id);
-        if (userDsrs.length > 0) {
-          const lastDsr = userDsrs.sort(
-            (a, b) => new Date(b.work_date) - new Date(a.work_date),
-          )[0];
-          //   // Set only DSR data structure
-          setData((prev) => ({
-            ...initialData,
-            ...prev,
-            ...lastDsr.data,
-            meta: {
-              ...initialData.meta,
-              ...prev.meta,
-              ...lastDsr.data?.meta,
-            },
-            time: {
-              ...initialData.time,
-              ...lastDsr.data?.time,
-              distribution: {
-                ...initialData.time.distribution,
-                ...lastDsr.data?.time?.distribution,
-              },
-            },
-            nextPlan: {
-              ...initialData.nextPlan,
-              ...lastDsr.data?.nextPlan,
-            },
-          }));
-        } else {
-          setData(initialData);
-        }
-      } catch (error) {
-        console.error("Failed to fetch last DSR:", error);
-        setData(initialData);
-      } finally {
-        setLoader(false)
-      }
-    };
+  // useEffect(() => {
+  //   const fetchLastDsr = async () => {
+  //     try {
+  //       setLoader(true)
+  //       const allDsrs = await dsrService.getAllDsrs();
+  //       const userDsrs = allDsrs.data.filter((dsr) => dsr.user_id === user?.id);
+  //       if (userDsrs.length > 0) {
+  //         const lastDsr = userDsrs.sort(
+  //           (a, b) => new Date(b.work_date) - new Date(a.work_date),
+  //         )[0];
+  //         //   // Set only DSR data structure
+  //         setData((prev) => ({
+  //           ...initialData,
+  //           ...prev,
+  //           ...lastDsr.data,
+  //           meta: {
+  //             ...initialData.meta,
+  //             ...prev.meta,
+  //             ...lastDsr.data?.meta,
+  //           },
+  //           time: {
+  //             ...initialData.time,
+  //             ...lastDsr.data?.time,
+  //             distribution: {
+  //               ...initialData.time.distribution,
+  //               ...lastDsr.data?.time?.distribution,
+  //             },
+  //           },
+  //           nextPlan: {
+  //             ...initialData.nextPlan,
+  //             ...lastDsr.data?.nextPlan,
+  //           },
+  //         }));
+  //       } else {
+  //         setData(initialData);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch last DSR:", error);
+  //       setData(initialData);
+  //     } finally {
+  //       setLoader(false)
+  //     }
+  //   };
 
-    fetchLastDsr();
-  }, []);
+  //   fetchLastDsr();
+  // }, []);
 
   // Load
-  useEffect(() => {
-    const user = getUser();
-    if (user) {
-      setData((prev) => ({
-        ...prev,
-        meta: {
-          ...prev.meta,
-          ...user,
-        },
-      }));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = getUser();
+  //   if (user) {
+  //     setData((prev) => ({
+  //       ...prev,
+  //       meta: {
+  //         ...prev.meta,
+  //         ...user,
+  //       },
+  //     }));
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    saveUser({
-      userId: data.meta?.userId,
-      mentor: data.meta?.mentor,
-      codeReviewer: data.meta?.codeReviewer,
-    });
-  }, [data.meta?.mentor, data.meta?.codeReviewer, data.meta?.userId]);
+  // useEffect(() => {
+  //   saveUser({
+  //     userId: data.meta?.userId,
+  //     mentor: data.meta?.mentor,
+  //     codeReviewer: data.meta?.codeReviewer,
+  //   });
+  // }, [data.meta?.mentor, data.meta?.codeReviewer, data.meta?.userId]);
 
   const totalHours = Object.values(data.time?.distribution || {}).reduce(
     (sum, val) => sum + (parseFloat(val) || 0),
@@ -144,7 +130,6 @@ export default function CreateDSR() {
           <DSRHeroHeader
             data={data}
             setPath={setPath}
-            fmtDate={fmtDate}
           />
           {/* ── Cards ── */}
           <div className="flex flex-col gap-4">
@@ -182,28 +167,21 @@ export default function CreateDSR() {
               STATUS_META={STATUS_META}
               TaskCard={TaskCard}
               Section={Section}
-              updateTask={updateTask}
             />
 
             <ChallengesSection
               challenges={challenges}
-              updateChallenge={updateChallenge}
-              deleteChallenge={deleteChallenge}
-              addChallenge={addChallenge}
               Section={Section}
+              data={data}
+              setData={setData}
             />
 
             <ReferencesSection
               data={data}
+              setData={setData}
               Field={Field}
               Section={Section}
               textareaCls={textareaCls}
-              updateReference={updateReference}
-              deleteReference={deleteReference}
-              addReference={addReference}
-              updateCommit={updateCommit}
-              deleteCommit={deleteCommit}
-              addCommit={addCommit}
             />
 
             <NextDayPlanSection
@@ -212,9 +190,7 @@ export default function CreateDSR() {
               Field={Field}
               inputCls={inputCls}
               setPath={setPath}
-              updateNextTask={updateNextTask}
-              deleteNextTask={deleteNextTask}
-              addNextTask={addNextTask}
+              setData={setData}
             />
 
             <ActionButtons

@@ -3,13 +3,61 @@ const ReferencesSection = ({
     Field,
     Section,
     textareaCls,
-    updateReference,
-    deleteReference,
-    addReference,
-    updateCommit,
-    deleteCommit,
-    addCommit,
+    setData
 }) => {
+
+    const addReference = () => {
+    setData((prev) => ({
+      ...prev,
+      references: [...prev.references, ""],
+    }));
+  };
+
+  // ❌ Delete Reference
+  const deleteReference = (index) => {
+    setData((prev) => ({
+      ...prev,
+      references: prev.references.filter((_, i) => i !== index),
+    }));
+  };
+
+  // ✏️ Update Reference
+  const updateReference = (index, value) => {
+    const updated = [...data.references];
+    updated[index] = value;
+
+    setData((prev) => ({
+      ...prev,
+      references: updated,
+    }));
+  };
+
+
+
+   const addCommit = () => {
+    setData((prev) => ({
+      ...prev,
+      commits: [...prev.commits, ""],
+    }));
+  };
+
+  const deleteCommit = (index) => {
+    setData((prev) => ({
+      ...prev,
+      commits: prev.commits.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateCommit = (index, value) => {
+    const updated = [...data.commits];
+    updated[index] = value;
+
+    setData((prev) => ({
+      ...prev,
+      commits: updated,
+    }));
+  };
+
     return (
         <Section icon="🔗" title="References & Commits">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

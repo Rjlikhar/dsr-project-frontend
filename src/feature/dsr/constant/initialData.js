@@ -1,71 +1,24 @@
-const getYesterday = () => {
-  const d = new Date();
-  d.setDate(d.getDate());
-  return d.toISOString().split("T")[0];
-};
-
-const yesterday = getYesterday();
-
 export const initialData = {
   meta: {
-    date: getYesterday(),
-    mentor: "Hrithik Veer",
-    codeReviewer: "Hrithik Veer",
-    bootcamp: { day: 1 },
-    scores: { productivity: 4, impact: 3 },
+    date: "",
+    mentor: "",
+    codeReviewer: "",
+    bootcamp: { day: 0 },
+    scores: { productivity: 0, impact: 0 },
   },
   time: {
-    "totalHours": 9,
+    "totalHours": 0,
     distribution: {
-      development: 6,
-      debugging: 2,
+      development: 0,
+      debugging: 0,
       planning: 0,
       learning: 0,
-      meetings: 1,
+      meetings: 0,
     },
   },
-  tasks: [
-    {
-      title: "DSM for Feb-2026 Dev Interns",
-      status: "DONE",
-      completion: 100,
-      timeSpent: 2,
-      subtasks: ["Conduct DSM session"],
-    },
-    {
-      title: "Fix Login / Forgot Password Issue",
-      status: "DONE",
-      completion: 100,
-      timeSpent: 2,
-      subtasks: ["Resolve login issue", "Fix forgot password flow"],
-    },
-    {
-      title: "AUTO-188 UI Revamp",
-      status: "IN_PROGRESS",
-      completion: 40,
-      timeSpent: 2,
-      subtasks: [
-        "Fix Workflow/{{Id}} Menu Bar",
-        "Fix Node Overlapping",
-        "Landing Page Navbar",
-      ],
-    },
-    {
-      title: "Improve DSR Structure",
-      status: "DONE",
-      completion: 100,
-      timeSpent: 2,
-      subtasks: ["Refactor DSR format"],
-    },
-  ],
-  challenges: [
-    {
-      challenge: "UI breaking on smaller screens",
-      status: "NOT_RESOLVED",
-      resolution: "",
-    },
-  ],
+  tasks: [],
+  challenges: [],
   references: [],
   commits: [],
-  nextPlan: { date: "2026-04-23", tasks: ["Continue AUTO-188 : UI Revamp"] },
+  nextPlan: { date: "", tasks: [] },
 };

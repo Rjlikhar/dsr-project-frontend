@@ -7,7 +7,7 @@ import { mapRoutesToNav } from "../../utils/mapRoutesToNav";
 import useAuth from "../../feature/auth/hooks/useAuth";
 
 export default function Sidebar({ isOpen, onClose, user }) {
-  const NAV = mapRoutesToNav(dashboardRoutes);
+  const NAV = mapRoutesToNav(dashboardRoutes,user);
   const {logout}=useAuth();
   const navigate=useNavigate();
 
