@@ -109,13 +109,19 @@ export async function changePasswordUser({
   }
 }
 
-
 export const appPasswordService = {
   saveAppPassword: async (appPassword) => {
-    await authRepository.appPassword({
-      app_password: appPassword,
-    });
-    console.log(appPassword)
+    try {
+      const response = await authRepository.appPassword({
+        app_password: appPassword,
+      });
+
+      return response?.data;
+
+    } catch (err) {
+      // ONLY throw, nothing else
+      throw err;
+    }
   },
 };
 

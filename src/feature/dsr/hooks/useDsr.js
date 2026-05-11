@@ -24,27 +24,56 @@ export const useDsr = () => {
 
   const handleSave = async () => {
     try {
-      setLoader(true)
-      const $response=await dsrService.saveDsr(data);
-      console.log($response);
+      setLoader(true);
+
+      const response = await dsrService.saveDsr(data);
+
+      const message =
+        response?.data?.message ||
+        response?.data?.data?.message ||
+        "DSR saved successfully";
+
+      const code =
+        response?.data?.status_code ||
+        response?.data?.data?.status_code ||
+        200;
+
       setToast({
         show: true,
-        msg: $response.data.data.message,
-        code:$response.data.data.status_code
+        msg: message,
+        code: code,
       });
 
+      // ✅ auto hide toast
       setTimeout(() => {
-        setToast({ show: false, msg: "" });
+        setToast({
+          show: false,
+          msg: "",
+          code: ""
+        });
       }, 3000);
+
     } catch (error) {
       console.error("Failed to save DSR:", error);
 
       setToast({
         show: true,
-        msg: "Failed to save DSR",
+        msg: error?.response?.data?.message ||
+          error?.message ||
+          "Failed to save DSR",
+        code: 400,
       });
-    }finally{
-      setLoader(false)
+
+      setTimeout(() => {
+        setToast({
+          show: false,
+          msg: "",
+          code: ""
+        });
+      }, 3000);
+
+    } finally {
+      setLoader(false);
     }
   };
 

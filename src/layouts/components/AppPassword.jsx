@@ -10,31 +10,41 @@ export default function AppPassword({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-const handleSave = () => {
-    if (!appPassword?.trim()) {
-      setToast({ show: true, msg: "Please enter app password" });
-      return;
+  const handleSave = async () => {
+    const password = appPassword.replace(/\s/g, "");
+
+    if (!password || password.length < 8) {
+      setAppPassword("");
+      return setToast({
+        show: true,
+        msg: "Password must be at least 8 characters",
+        code: 400,
+      });
     }
 
     try {
       setLoading(true);
 
-      const data = appPasswordService.saveAppPassword(
-        appPassword.trim()
-      );
+      const data = await appPasswordService.saveAppPassword(password);
 
-      setToast({ show: true, msg: data.message,code:200 });
+      setToast({
+        show: true,
+        msg: "App password successfully added!.",
+        code: 200,
+      });
 
       setAppPassword("");
-
-      setTimeout(onClose, 800);
 
     } catch (err) {
       setToast({
         show: true,
-        msg: err?.response?.data?.message || "Something went wrong",
-        code:400
+        msg:
+          err?.response?.data?.message ||
+          err?.response?.data?.error ||
+          err?.message,
+        code: 400,
       });
+
     } finally {
       setLoading(false);
     }
@@ -75,7 +85,7 @@ const handleSave = () => {
             <input
               type="password"
               value={appPassword}
-              onChange={(e) => setAppPassword(e.target.value)}
+              onChange={(e) => setAppPassword(e.target.value.replace(/\s/g, ""))}
               placeholder="Enter your email app password"
               className="mt-2 w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-violet-400 outline-none transition"
             />

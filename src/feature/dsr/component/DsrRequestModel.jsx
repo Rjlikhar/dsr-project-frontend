@@ -17,6 +17,7 @@ export default function DrsRequestModel({openModal, setOpenModal}) {
 
   const [dsrRequest, setDsrRequest] =useState(defaultDsrRequest);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const setDsr = (key, value) => {
     setDsrRequest((prev) => ({
       ...prev,
@@ -25,24 +26,43 @@ export default function DrsRequestModel({openModal, setOpenModal}) {
   };
 
   const handleDsrApprovalRequest = async () => {
-    const payload = {
-      request_date: dsrRequest.allowedDate,
-      reason: dsrRequest.reason,
-    };
+    // Validation
+    if (!dsrRequest.allowedDate || !dsrRequest.reason.trim()) {
+      setError("All fields are required.");
+      return; // stop API call
+    }
 
-    // TODO:
-    await dsrService.sendDsrApprovalRequest(payload)
+    try {
+      setError("");
 
-    console.log(payload);
+      const payload = {
+        request_date: dsrRequest.allowedDate,
+        reason: dsrRequest.reason,
+      };
 
-    setSuccess(true);
+      await dsrService.sendDsrApprovalRequest(payload);
 
-    setTimeout(() => {
+      setSuccess(true);
+
+      setTimeout(() => {
+        setSuccess(false);
+        setOpenModal(false);
+      }, 2000);
+
+      setDsrRequest(defaultDsrRequest);
+
+    } catch (err) {
+      console.log(err);
+
       setSuccess(false);
-      setOpenModal(false);
-    }, 2000);
 
-    setDsrRequest(defaultDsrRequest);
+      const backendMessage =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Failed to send request.";
+
+      setError(backendMessage);
+    }
   };
 
   return (
@@ -77,6 +97,12 @@ export default function DrsRequestModel({openModal, setOpenModal}) {
 
             {/* Body */}
             <div className="p-6">
+            {error && (
+              <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 text-sm font-semibold px-5 py-3 rounded-2xl mb-5">
+                <FiAlertCircle className="w-4 h-4" />
+                {error}
+              </div>
+            )}
               {success && (
                 <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-5 py-3 rounded-2xl mb-5">
                   Request sent successfully!
