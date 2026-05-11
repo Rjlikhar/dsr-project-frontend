@@ -1,5 +1,5 @@
 import { FiShield, FiUserPlus } from "react-icons/fi";
-import { StatCard } from "../../../component/StateCard";
+import { StatCard } from "../../Dashboard/component/StateCard";
 
 export default function HeroHeader({showModal, setShowModal}) {
   return (

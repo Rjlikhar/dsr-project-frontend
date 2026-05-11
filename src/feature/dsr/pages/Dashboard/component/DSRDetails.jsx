@@ -1,7 +1,7 @@
 import React from "react";
-import { STATUS_CONFIG_DSRLIST } from "../constant/statusConfig";
-import { fmt } from "../utils/formateDate";
-import { ScoreBar } from "./ScoreBar";
+import { ScoreBar } from "../../../component/ScoreBar";
+import { fmt } from "../../../utils/formateDate";
+import { STATUS_CONFIG_DSRLIST } from "../../../constant/statusConfig";
 
 export function getDSRStatus(tasks = []) {
   if (tasks.every((t) => t.status === "DONE")) return "DONE";

@@ -6,7 +6,8 @@ import { useAuthCheck } from "../feature/auth/hooks/useAuthCheck";
 import FullScreenLoader from "../component/common/Loader";
 
 
-function ProtectedRoute({token}) {
+function ProtectedRoute() {
+  const token = localStorage.getItem("auth_token");
   return token ? <Outlet /> : <Navigate to="/signin" replace />;
 }
 
@@ -19,11 +20,11 @@ export default function AppRoutes() {
     <Routes>
       {/* ── Auth Routes (No Layout) ── */}
       {authRoutes.map(({ path, element }) => (
-        <Route key={path} path={path} element={isLoggedIn ? <Navigate to="/" replace /> : element} />
+        <Route key={path} path={path} element={localStorage.getItem("auht_token") ? <Navigate to="/" replace /> : element} />
       ))}
 
       {/* ── Protected Routes (WITH Layout) ── */}
-      <Route element={<ProtectedRoute token={isLoggedIn}/>}>
+      <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           {dashboardRoutes.map(({ path, element, index }) =>
             index ? (

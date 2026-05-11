@@ -21,6 +21,7 @@ export function useAuthCheck() {
         setIsLoggedIn(true);
       } catch {
         localStorage.removeItem("auth_token");
+        localStorage.removeItem("currentUser");
         setIsLoggedIn(false);
       } finally {
         setLoader(false);

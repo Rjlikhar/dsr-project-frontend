@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { StatCard } from "../component/StateCard";
+import { StatCard } from "./component/StateCard";
 import { useNavigate } from "react-router-dom";
-import DSRList from "../component/DSRList";
-import { getAverageScore } from "../utils/getProductiveAndImpactScore";
-import { getDsrCount } from "../utils/getDsrCount";
-import { dsrService } from "../services/dsrService";
-import FullScreenLoader from "../../../component/common/Loader";
+import DSRList from "./component/DSRList";
+import { getAverageScore } from "../../utils/getProductiveAndImpactScore";
+import { getDsrCount } from "../../utils/getDsrCount";
+import { dsrService } from "../../services/dsrService";
+import FullScreenLoader from "../../../../component/common/Loader";
 import { FiAlertCircle } from "react-icons/fi";
-import Notification, { Toast } from "../../../component/common/Toast";
+import Notification, { Toast } from "../../../../component/common/Toast";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -109,7 +109,11 @@ export default function Dashboard() {
   // ── Today's DSR check ──────────────────────────────────────────────────
   const todayStr = now.toISOString().split("T")[0];
 
-  const hasTodayDSR = dsrList.some((dsr) => dsr.meta?.date === todayStr);
+  const hasTodayDSR = dsrList.some((dsr) => {
+      const workDate = dsr.work_date.split("T")[0];
+
+      return workDate === todayStr;
+    });
 
   // Avg Productivity Score
   const avgProductiveScore = getAverageScore(

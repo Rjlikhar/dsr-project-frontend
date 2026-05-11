@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiAward, FiCalendar, FiEdit3, FiUser } from "react-icons/fi";
 import { dsrService } from "../../../services/dsrService";
+import { authServices } from "../../../../auth/services/authServices";
 
 const DSRHeroHeader = ({ data, setPath }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -44,15 +45,40 @@ const DSRHeroHeader = ({ data, setPath }) => {
     }
   };
 
-  const handleConfirmEdit = () => {
-    console.log("Updated Header Data:", {
-      mentor: data.meta?.mentor,
-      codeReviewer: data.meta?.codeReviewer,
-      date: data.meta?.date,
-    });
+  const handleConfirmEdit = async () => {
+    try {
+      const storedUser = localStorage.getItem("currentUser");
 
-    setIsEdit(false);
+      if (!storedUser) {
+        console.error("No user found in localStorage");
+        return;
+      }
+
+      const currentUser = JSON.parse(storedUser);
+
+      const payload = {
+        mentor: data.meta?.mentor,
+        code_reviewer: data.meta?.codeReviewer,
+      };
+
+      await authServices.updateMentorReviewer(currentUser.id, payload);
+
+      // update localStorage
+      const updatedUser = {
+        ...currentUser,
+        mentor: payload.mentor,
+        code_reviewer: payload.code_reviewer,
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+
+      setIsEdit(false);
+
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
   };
+
 
   useEffect(() => {
     fetchNotifications();

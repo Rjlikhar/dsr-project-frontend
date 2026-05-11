@@ -1,6 +1,6 @@
 import AppPassword from "../layouts/components/AppPassword";
 import CreateDSR from "../feature/dsr/pages/CreateDSR/CreateDsr";
-import Dashboard from "../feature/dsr/pages/Dashboard";
+import Dashboard from "../feature/dsr/pages/Dashboard/Dashboard";
 import Admin from "../feature/dsr/pages/Admin/Admin";
 
 const user = JSON.parse(localStorage.getItem("currentUser"));

@@ -25,6 +25,7 @@ export function saveUsers(users) {
 
 // Signup
 export async function signupUser(formData) {
+  console.log("formData.role", formData.role);
   return authRepository.register({
     name: formData.name.trim(),
     email: formData.email.trim().toLowerCase(),
@@ -111,9 +112,24 @@ export async function changePasswordUser({
 
 export const appPasswordService = {
   saveAppPassword: async (appPassword) => {
-    const response = await authRepository.appPassword({
+    await authRepository.appPassword({
       app_password: appPassword,
     });
     console.log(appPassword)
+  },
+};
+
+export const authServices = {
+  async updateMentorReviewer(id, payload) {
+    try {
+      const response =
+        await authRepository.updateMentorReviewer(id,payload);
+
+      return response.data;
+    } catch (error) {
+      console.error("Failed to update user:", error);
+
+      throw error;
+    }
   },
 };

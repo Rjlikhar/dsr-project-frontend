@@ -15,8 +15,6 @@ const TimeAllocationSection = ({
         );
     };
 
-    console.log("TIME_KEYS", TIME_KEYS)
-
     return (
         <Section icon="⏱" title="Time Allocation">
             <div className="flex flex-col gap-4 mb-5">

@@ -34,12 +34,15 @@ export default function Login() {
     }
     try {
       setLoader(true)
-      await login({
+      const response = await login({
         email: form.email.trim(),
         password: form.password,
       });
 
-      navigate("/");
+      if(response){
+        // await getCurrentUser();
+        navigate("/");
+      }
 
       setForm({
         email: "",
@@ -48,7 +51,6 @@ export default function Login() {
 
     } catch (err) {
       alert(err.message)
-      console.error(err.message);
     }finally{
       setLoader(false)
     }

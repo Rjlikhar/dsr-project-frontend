@@ -58,8 +58,8 @@ export default function useAuth() {
     }
   };
 
-  const logout = () => {
-    logoutUser();
+  const logout = async () => {
+    await logoutUser();
   };
 
   return {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { STATUS_CONFIG_DSRLIST } from "../constant/statusConfig";
+import { STATUS_CONFIG_DSRLIST } from "../../../constant/statusConfig";
+import { fmt } from "../../../utils/formateDate";
 import DSRDetails from "./DSRDetails";
-import { fmt } from "../utils/formateDate";
 
 export function getDSRStatus(tasks = []) {
   if (tasks.every((t) => t.status === "DONE")) return "DONE";

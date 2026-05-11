@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import { getUser, saveUser } from "../../utils/storage";
 import { STATUS_META } from "../../constant/status";
 import Section from "../../../../component/common/Section";
 import { ScoreSlider } from "../../component/ScoreSlider";
@@ -9,15 +7,7 @@ import { Field } from "../../../../component/common/Field";
 import { Toast } from "../../../../component/common/Toast";
 import { useDsr } from "../../hooks/useDsr";
 import { buildEmailHTML, DSRPreviewModal } from "../../component/DSRPreviewModal";
-import { dsrService } from "../../services/dsrService";
-import { initialData } from "../../constant/initialData";
 import FullScreenLoader from "../../../../component/common/Loader";
-import {
-  FiCalendar,
-  FiEdit3,
-  FiUser,
-  FiAward,
-} from "react-icons/fi";
 import DSRHeroHeader from "./component/DSRHeroHeader";
 import TimeAllocationSection from "./component/TimeAllocationSection";
 import TasksSection from "./component/TasksSection";
@@ -25,6 +15,7 @@ import ChallengesSection from "./component/ChallengesSection";
 import ReferencesSection from "./component/ReferencesSection";
 import NextDayPlanSection from "./component/NextDayPlanSection";
 import ActionButtons from "./component/ActionButtons";
+import { useState } from "react";
 
 
 export default function CreateDSR() {
@@ -46,75 +37,6 @@ export default function CreateDSR() {
   const [showPreview, setShowPreview] = useState(false);
   const emailHTML = buildEmailHTML(data);
   const user = JSON.parse(localStorage.getItem("currentUser"));
-
-  // useEffect(() => {
-  //   const fetchLastDsr = async () => {
-  //     try {
-  //       setLoader(true)
-  //       const allDsrs = await dsrService.getAllDsrs();
-  //       const userDsrs = allDsrs.data.filter((dsr) => dsr.user_id === user?.id);
-  //       if (userDsrs.length > 0) {
-  //         const lastDsr = userDsrs.sort(
-  //           (a, b) => new Date(b.work_date) - new Date(a.work_date),
-  //         )[0];
-  //         //   // Set only DSR data structure
-  //         setData((prev) => ({
-  //           ...initialData,
-  //           ...prev,
-  //           ...lastDsr.data,
-  //           meta: {
-  //             ...initialData.meta,
-  //             ...prev.meta,
-  //             ...lastDsr.data?.meta,
-  //           },
-  //           time: {
-  //             ...initialData.time,
-  //             ...lastDsr.data?.time,
-  //             distribution: {
-  //               ...initialData.time.distribution,
-  //               ...lastDsr.data?.time?.distribution,
-  //             },
-  //           },
-  //           nextPlan: {
-  //             ...initialData.nextPlan,
-  //             ...lastDsr.data?.nextPlan,
-  //           },
-  //         }));
-  //       } else {
-  //         setData(initialData);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch last DSR:", error);
-  //       setData(initialData);
-  //     } finally {
-  //       setLoader(false)
-  //     }
-  //   };
-
-  //   fetchLastDsr();
-  // }, []);
-
-  // Load
-  // useEffect(() => {
-  //   const user = getUser();
-  //   if (user) {
-  //     setData((prev) => ({
-  //       ...prev,
-  //       meta: {
-  //         ...prev.meta,
-  //         ...user,
-  //       },
-  //     }));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   saveUser({
-  //     userId: data.meta?.userId,
-  //     mentor: data.meta?.mentor,
-  //     codeReviewer: data.meta?.codeReviewer,
-  //   });
-  // }, [data.meta?.mentor, data.meta?.codeReviewer, data.meta?.userId]);
 
   const totalHours = Object.values(data.time?.distribution || {}).reduce(
     (sum, val) => sum + (parseFloat(val) || 0),
