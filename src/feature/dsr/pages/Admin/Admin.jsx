@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DsrApprovalList from "./component/DsrAprrovalList";
 import HeroHeader from "./component/HeroHeader";
-import UserForm from "./component/UserForm";
+import Signup from "../../../auth/pages/Signup";
 
 export default function Admin() {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,7 @@ export default function Admin() {
                 ✕
               </button>
 
-              <UserForm handleClose={() => setShowModal(false)} />
+              <Signup handleClose={() => setShowModal(false)} />
             </div>
           </div>
         )}
