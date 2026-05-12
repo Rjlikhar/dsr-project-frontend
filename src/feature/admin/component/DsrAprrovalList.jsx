@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MissedDsrModal from "./MissedDsrModal";
-import { dsrService } from "../../../services/dsrService";
+import { adminService } from "../service/adminService";
 const STATUS_CONFIG = {
   pending: {
     dot: "bg-amber-400",
@@ -34,7 +34,7 @@ export default function DsrApprovalList() {
 
   const fetchRequests = async () => {
     try {
-      const response = await dsrService.getAllMissedDsrRequests();
+      const response = await adminService.getAllMissedDsrRequests();
 
       setRequests(response.data || []);
     } catch (error) {

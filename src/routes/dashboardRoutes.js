@@ -1,7 +1,6 @@
-import AppPassword from "../layouts/components/AppPassword";
 import CreateDSR from "../feature/dsr/pages/CreateDSR/CreateDsr";
 import Dashboard from "../feature/dsr/pages/Dashboard/Dashboard";
-import Admin from "../feature/dsr/pages/Admin/Admin";
+import Admin from "../feature/admin/Admin";
 
 const user = JSON.parse(localStorage.getItem("currentUser"));
 export const dashboardRoutes = [
@@ -18,7 +17,7 @@ export const dashboardRoutes = [
     ? [
         {
           path: "/admin",
-          element: <Admin />,
+          element: <Admin/>,
         },
       ]
     : [])

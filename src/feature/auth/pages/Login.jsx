@@ -97,16 +97,6 @@ export default function Login() {
               Login
             </button>
           </form>
-
-          {/* Footer */}
-          <p className="text-center text-sm text-slate-400 mt-5">
-            Don’t have an account?{" "}
-            <button
-              onClick={()=>navigate("/signup")}
-             className="text-blue-500 cursor-pointer hover:underline">
-              Signup
-            </button>
-          </p>
         </div>
       </div>
     </div>

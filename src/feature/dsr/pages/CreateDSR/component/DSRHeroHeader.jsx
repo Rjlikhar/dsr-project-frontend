@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FiAward, FiCalendar, FiEdit3, FiUser } from "react-icons/fi";
 import { dsrService } from "../../../services/dsrService";
 import { authServices } from "../../../../auth/services/authServices";
+import { adminService } from "../../../../admin/service/adminService";
 
 const DSRHeroHeader = ({ data, setPath }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -84,7 +85,7 @@ const DSRHeroHeader = ({ data, setPath }) => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await dsrService.getMissedDsrNotifications();
+      const response = await adminService.getMissedDsrNotifications();
       if (response.status) {
         const approvedDates = response.data.map((item) =>
           formatDate(item.request_date),

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DsrApprovalList from "./component/DsrAprrovalList";
 import HeroHeader from "./component/HeroHeader";
-import Signup from "../../../auth/pages/Signup";
+import Signup from "../auth/pages/Signup";
 
 export default function Admin() {
   const [showModal, setShowModal] = useState(false);

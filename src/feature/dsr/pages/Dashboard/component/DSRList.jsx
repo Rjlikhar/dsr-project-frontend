@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { STATUS_CONFIG_DSRLIST } from "../../../constant/statusConfig";
 import { fmt } from "../../../utils/formateDate";
 import DSRDetails from "./DSRDetails";
 import { CiBellOn } from "react-icons/ci";
-import DrsRequestModel from "../../../component/DsrRequestModel";
+import DrsRequestModel from "../../../../admin/component/DsrRequestModel";
 
 export function getDSRStatus(tasks = []) {
   if (tasks.every((t) => t.status === "DONE")) return "DONE";

@@ -1,7 +1,7 @@
 // component/MissedDsrModal.jsx
 
 import { useState } from "react";
-import { dsrService } from "../../../services/dsrService";
+import { adminService } from "../service/adminService";
 export default function MissedDsrModal({
    
   request,
@@ -16,7 +16,7 @@ export default function MissedDsrModal({
     setLoading(true);
 
     
-    await dsrService.updateMissedDsrStatus(request.id,{
+    await adminService.updateMissedDsrStatus(request.id,{
       status: status,
     });
 

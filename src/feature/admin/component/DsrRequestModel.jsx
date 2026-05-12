@@ -5,7 +5,7 @@ import {
   FiSend,
   FiX,
 } from "react-icons/fi";
-import { dsrService } from "../services/dsrService";
+import { adminService } from "../service/adminService";
 
 const defaultDsrRequest = {
   allowedDate: "",
@@ -40,7 +40,7 @@ export default function DrsRequestModel({openModal, setOpenModal}) {
         reason: dsrRequest.reason,
       };
 
-      await dsrService.sendDsrApprovalRequest(payload);
+      await adminService.sendDsrApprovalRequest(payload);
 
       setSuccess(true);
 
