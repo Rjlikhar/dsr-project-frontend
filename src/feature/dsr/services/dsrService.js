@@ -14,38 +14,15 @@ export const dsrService = {
         nextPlan: data.nextPlan,
       },
     };
-
     return await dsrRepository.create(payload);
   },
 
+
   async getAllDsrs() {
-    try {
-      const token = localStorage.getItem("token");
-
-      // ✅ Stop API call if token missing
-      if (!token) {
-        return [];
-      }
-
       const response = await dsrRepository.getAll();
-
       return response.data;
-    } catch (error) {
-      // ✅ Handle invalid/expired token
-      if (error.response?.status === 401) {
-        console.warn("Unauthorized: Invalid token");
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("currentUser");
-
-        return [];
-      }
-
-      console.error("Failed to fetch DSRs:", error);
-
-      throw error;
-    }
   },
+
 
   async sendDsr(payload) {
     return await dsrRepository.sendDsr(payload);
