@@ -6,7 +6,10 @@ import { TaskCard } from "../../component/TaskCard";
 import { Field } from "../../../../component/common/Field";
 import { Toast } from "../../../../component/common/Toast";
 import { useDsr } from "../../hooks/useDsr";
-import { buildEmailHTML, DSRPreviewModal } from "../../component/DSRPreviewModal";
+import {
+  buildEmailHTML,
+  DSRPreviewModal,
+} from "../../component/DSRPreviewModal";
 import FullScreenLoader from "../../../../component/common/Loader";
 import DSRHeroHeader from "./component/DSRHeroHeader";
 import TimeAllocationSection from "./component/TimeAllocationSection";
@@ -15,8 +18,8 @@ import ChallengesSection from "./component/ChallengesSection";
 import ReferencesSection from "./component/ReferencesSection";
 import NextDayPlanSection from "./component/NextDayPlanSection";
 import ActionButtons from "./component/ActionButtons";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { dsrService } from "../../services/dsrService";
 
 export default function CreateDSR() {
   const {
@@ -28,31 +31,56 @@ export default function CreateDSR() {
     handleSave,
     handleSend,
     loader,
-    setLoader
+    setLoader,
   } = useDsr();
 
-  const inputCls = "w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-transparent transition";
+  const inputCls =
+    "w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-transparent transition";
   const textareaCls = `${inputCls} resize-y min-h-[50px]`;
   const challenges = data.challenges;
   const [showPreview, setShowPreview] = useState(false);
   const emailHTML = buildEmailHTML(data);
   const user = JSON.parse(localStorage.getItem("currentUser"));
-
   const totalHours = Object.values(data.time?.distribution || {}).reduce(
     (sum, val) => sum + (parseFloat(val) || 0),
     0,
   );
+
+  useEffect(() => {
+    fetchDraft();
+  }, []);
+
+  const fetchDraft = async () => {
+    try {
+      setLoader(true);
+      const response = await dsrService.getDraftDsr();
+      if (response.data.status) {
+        const draft = response.data;
+        console.log(draft);
+        setData((prev) => ({
+          ...prev,
+          ...draft.data,
+          meta: {
+            ...prev.meta,
+            ...draft.data.meta,
+            mentor: user?.mentor || "",
+            codeReviewer: user?.code_reviewer || "",
+          },
+        }));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   return (
     <>
       <FullScreenLoader loading={loader} />
       <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50/40 to-slate-100 p-4 md:p-8">
         <div className="max-w-3xl mx-auto">
-
-          <DSRHeroHeader
-            data={data}
-            setPath={setPath}
-          />
+          <DSRHeroHeader data={data} setPath={setPath} />
           {/* ── Cards ── */}
           <div className="flex flex-col gap-4">
             {/* Scores */}
@@ -61,7 +89,9 @@ export default function CreateDSR() {
                 <ScoreSlider
                   label="Productivity Score"
                   value={data.meta?.scores.productivity}
-                  onChange={(v) => setPath(["meta", "scores", "productivity"], v)}
+                  onChange={(v) =>
+                    setPath(["meta", "scores", "productivity"], v)
+                  }
                   accent="bg-blue-500"
                   trackAccent="bg-blue-200"
                 />

@@ -110,4 +110,10 @@ export const dsrService = {
     const res = await dsrRepository.updateGroup(payload);
     return res.data;
   },
+
+
+  async getDraftDsr(){
+      const res = await dsrRepository.getDraftDsr();
+      return res.data;
+  }
 };

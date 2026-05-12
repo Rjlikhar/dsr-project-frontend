@@ -25,7 +25,7 @@ const DSRHeroHeader = ({ data, setPath }) => {
     const groupId = e.target.value;
     setSelectedGroup(groupId);
     try {
-      await dsrService.updateGroup({group_id: groupId});
+      await dsrService.updateGroup({ group_id: groupId });
 
       console.log("Group updated successfully");
     } catch (error) {
@@ -73,12 +73,10 @@ const DSRHeroHeader = ({ data, setPath }) => {
       localStorage.setItem("currentUser", JSON.stringify(updatedUser));
 
       setIsEdit(false);
-
     } catch (error) {
       console.error("Update failed:", error);
     }
   };
-
 
   useEffect(() => {
     fetchNotifications();

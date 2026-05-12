@@ -10,6 +10,8 @@ export const dsrRepository = {
 
   update: (id, payload) => client.put(API_ENDPOINTS.DSR.UPDATE(id), payload),
 
+  getDraftDsr:()=> client.get(API_ENDPOINTS.DSR.DRAFT_DSR),
+
   delete: (id) => client.delete(API_ENDPOINTS.DSR.DELETE(id)),
 
   sendDsr: (payload) => client.post("/dsr/send", payload),
@@ -30,5 +32,7 @@ export const dsrRepository = {
 
   getGroups: () => client.get(API_ENDPOINTS.GROUPS.GET_ALL),
 
-  updateGroup:(payload)=> client.put(API_ENDPOINTS.GROUPS.UPDATE,payload)
+  updateGroup:(payload)=> client.put(API_ENDPOINTS.GROUPS.UPDATE,payload),
+
+ 
 };

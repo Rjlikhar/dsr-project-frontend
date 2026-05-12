@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
     UPDATE: (id) => `/dsr/${id}`,
     DELETE: (id) => `/dsr/${id}`,
     SEND: (payload) => `/dsr/send`,
+    DRAFT_DSR:"/dsr/draft"
   },
 
   MISSED_DSR_REQUEST: {
