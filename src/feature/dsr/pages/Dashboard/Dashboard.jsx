@@ -6,8 +6,6 @@ import { getAverageScore } from "../../utils/getProductiveAndImpactScore";
 import { getDsrCount } from "../../utils/getDsrCount";
 import { dsrService } from "../../services/dsrService";
 import FullScreenLoader from "../../../../component/common/Loader";
-import { FiAlertCircle } from "react-icons/fi";
-import Notification, { Toast } from "../../../../component/common/Toast";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -25,18 +23,15 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const DSR_STORAGE_KEY = "dsr_reports";
   const [loader,setLoader]=useState(false)
-  const [openModal, setOpenModal] = useState(false);
   const [notifications, setNotifications] = useState([]);
-  const [show, setShow] = useState(true);
-
 
   useEffect(() => {
     const fetchDsrs = async () => {
       try {
         setLoader(true)
         const response = await dsrService.getAllDsrs();
+        console.log("hii", response);
         if (response?.success) {
           // Backend response data
           const dsrs = response.data || [];

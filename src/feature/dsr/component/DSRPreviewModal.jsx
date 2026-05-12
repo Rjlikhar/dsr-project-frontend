@@ -223,8 +223,8 @@ export function buildEmailHTML(data) {
 
   <!-- Resolution -->
   <table style="${tableStyle}">
-    <tr>${thCell("Resolution for Challenges", "colspan='2'")}</tr>
-    <tr><td colspan="2" style="border: ${borderStyle}; ${cellPad} font-family: Arial, sans-serif; font-size: 11pt;">${resText}</td></tr>
+    <tr>${thCell("Resolution for Challenges")}</tr>
+    <tr><td style="border: ${borderStyle}; ${cellPad} font-family: Arial, sans-serif; font-size: 11pt;">${resText}</td></tr>
   </table>
 
   <!-- References -->

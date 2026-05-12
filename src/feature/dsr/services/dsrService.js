@@ -20,7 +20,7 @@ export const dsrService = {
 
   async getAllDsrs() {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("auth_token");
 
       // ✅ Stop API call if token missing
       if (!token) {
@@ -35,7 +35,7 @@ export const dsrService = {
       if (error.response?.status === 401) {
         console.warn("Unauthorized: Invalid token");
 
-        localStorage.removeItem("token");
+        localStorage.removeItem("auth_token");
         localStorage.removeItem("currentUser");
 
         return [];
