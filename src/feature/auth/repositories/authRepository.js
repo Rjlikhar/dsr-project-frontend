@@ -14,5 +14,7 @@ export const authRepository = {
 
   appPassword: (payload) =>  {client.put(API_ENDPOINTS.AUTH.APP_PASSWORD, payload)},
 
-  updateMentorReviewer: (id, payload) => client.put(API_ENDPOINTS.AUTH.UPDATE_MENTOR_REVIEWER(id),payload)
+  updateMentorReviewer: (id, payload) => client.put(API_ENDPOINTS.AUTH.UPDATE_MENTOR_REVIEWER(id),payload),
+
+  getAllUsers: () => client.get(API_ENDPOINTS.AUTH.USERS)
 };

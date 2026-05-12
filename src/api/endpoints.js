@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
     APP_PASSWORD: "/save-app-password",
     UPDATE_MENTOR_REVIEWER: (id) =>
       `/user/${id}/mentor-reviewer`,
+    USERS: "/users"
   },
 
   DSR: {
