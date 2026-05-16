@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { initialData } from "../constant/initialData";
+import { initialData, useInitialData } from "../constant/initialData";
 import { dsrService } from "../services/dsrService";
 
 export const useDsr = () => {
+  const initialData = useInitialData();
   const [data, setData] = useState(initialData);
   const [toast, setToast] = useState({ show: false, msg: "",code:"" }); 
   const challenges = data.challenges;
