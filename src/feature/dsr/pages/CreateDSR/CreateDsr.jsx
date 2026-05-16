@@ -34,10 +34,9 @@ export default function CreateDSR() {
     setLoader,
   } = useDsr();
 
-  const inputCls =
-    "w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-transparent transition";
+  const inputCls = "w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-transparent transition";
   const textareaCls = `${inputCls} resize-y min-h-[50px]`;
-  const challenges = data.challenges;
+  const challenges = data?.challenges;
   const [showPreview, setShowPreview] = useState(false);
   const emailHTML = buildEmailHTML(data);
   const user = JSON.parse(localStorage.getItem("currentUser"));
@@ -54,6 +53,8 @@ export default function CreateDSR() {
     try {
       setLoader(true);
       const response = await dsrService.getDraftDsr();
+      const alldsr = await dsrService.getAllDsrs();
+      const nextday = alldsr.data.length + 1; 
       if (response.data.status) {
         const draft = response.data;
         console.log(draft);
@@ -65,6 +66,7 @@ export default function CreateDSR() {
             ...draft.data.meta,
             mentor: user?.mentor || "",
             codeReviewer: user?.code_reviewer || "",
+            bootcamp: {day : nextday }
           },
         }));
       }
