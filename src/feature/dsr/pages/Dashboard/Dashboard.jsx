@@ -26,12 +26,12 @@ export default function Dashboard() {
   const [endDate, setEndDate] = useState("");
   const [loader,setLoader]=useState(false)
   const [notifications, setNotifications] = useState([]);
-  const [show, setShow] = useState(true);
+  const [show] = useState(true);
 
 
   useEffect(() => {
-    const fetchDsrs = async () => {
-      try {
+    const fetchDsrs = async () => {    
+      try {    
         setLoader(true)
         const response = await dsrService.getAllDsrs();
         if (response?.success) {
@@ -86,8 +86,6 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error("Notification Fetch Error:", error);
-    } finally {
-      setLoader(false);
     }
   };
 
