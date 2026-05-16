@@ -15,9 +15,12 @@ export default function Navbar({ onToggle }) {
   const navigate=useNavigate();
 
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("currentUser"));
-    setUser(savedUser);
-     console.log(user)
+    const savedUser = localStorage.getItem("currentUser");
+    if (savedUser) {
+    const parsedUser = JSON.parse(savedUser);
+    setUser(parsedUser);
+    console.log(parsedUser);
+  }
   }, []);
 
   const getInitials = (name = "") => {
@@ -113,11 +116,11 @@ export default function Navbar({ onToggle }) {
               background: "linear-gradient(135deg, #6366f1, #a78bfa)",
               boxShadow: "0 2px 8px rgba(99,102,241,0.3)",
             }}
-          >{getInitials(user.name)}</div>
+          >{getInitials(user?.name)}</div>
           
           {/* Name & Role */}
           <div className={`hidden lg:flex flex-col leading-tight text-left`}>
-            <span className="text-[13px] font-semibold text-slate-800">{user.name}</span>
+            <span className="text-[13px] font-semibold text-slate-800">{user?.name}</span>
           </div>
 
           {/* Chevron */}
