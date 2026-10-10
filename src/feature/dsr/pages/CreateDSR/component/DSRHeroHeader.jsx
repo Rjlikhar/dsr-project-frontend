@@ -5,6 +5,11 @@ import { authServices } from "../../../../auth/services/authServices";
 import { adminService } from "../../../../admin/service/adminService";
 
 const DSRHeroHeader = ({ data, setPath }) => {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   const [isEdit, setIsEdit] = useState(false);
   const [allowedDates, setAllowedDates] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -20,6 +25,14 @@ const DSRHeroHeader = ({ data, setPath }) => {
       }
     };
     fetchGroups();
+  }, []);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   const handleGroupChange = async (e) => {
@@ -48,32 +61,33 @@ const DSRHeroHeader = ({ data, setPath }) => {
 
   const handleConfirmEdit = async () => {
     try {
-      const storedUser = localStorage.getItem("currentUser");
-
-      if (!storedUser) {
-        console.error("No user found in localStorage");
+      if (!user) {
+        console.error("User not found");
         return;
       }
-
-      const currentUser = JSON.parse(storedUser);
 
       const payload = {
         mentor: data.meta?.mentor,
         code_reviewer: data.meta?.codeReviewer,
       };
 
-      await authServices.updateMentorReviewer(currentUser.id, payload);
+      await authServices.updateMentorReviewer(user.id, payload);
 
-      // update localStorage
       const updatedUser = {
-        ...currentUser,
+        ...user,
         mentor: payload.mentor,
         code_reviewer: payload.code_reviewer,
       };
 
+      // Update localStorage
       localStorage.setItem("currentUser", JSON.stringify(updatedUser));
 
+      // Update React State
+      setUser(updatedUser);
+
       setIsEdit(false);
+
+      console.log("User Updated", updatedUser);
     } catch (error) {
       console.error("Update failed:", error);
     }

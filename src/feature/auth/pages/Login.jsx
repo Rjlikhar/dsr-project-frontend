@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "../../../component/common/Loader";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const inputCls =
@@ -27,34 +28,39 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
+    // Validation
     if (!form.email.trim() || !form.password.trim()) {
-      alert("Email and password are required");
+      toast.error("Email and password are required.");
       return;
     }
+
     try {
-      setLoader(true)
+      setLoader(true);
+
       const response = await login({
         email: form.email.trim(),
         password: form.password,
       });
 
-      if(response){
-        // await getCurrentUser();
+      if (response) {
+        toast.success("Login successful!");
+
+        setForm({
+          email: "",
+          password: "",
+        });
+
         navigate("/");
       }
-
-      setForm({
-        email: "",
-        password: "",
-      });
-
     } catch (err) {
-      alert(err.message)
-    }finally{
-      setLoader(false)
+      toast.error(
+        err?.response?.data?.message ||
+        err?.message ||
+        "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoader(false);
     }
-
   };
 
   return (

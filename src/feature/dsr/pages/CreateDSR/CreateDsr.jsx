@@ -44,38 +44,55 @@ export default function CreateDSR() {
     (sum, val) => sum + (parseFloat(val) || 0),
     0,
   );
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     fetchDraft();
   }, []);
 
-  const fetchDraft = async () => {
+const fetchDraft = async () => {
     try {
-      setLoader(true);
-      const response = await dsrService.getDraftDsr();
-      const alldsr = await dsrService.getAllDsrs();
-      const nextday = alldsr.data.length + 1; 
-      if (response.data.status) {
-        const draft = response.data;
-        console.log(draft);
-        setData((prev) => ({
-          ...prev,
-          ...draft.data,
-          meta: {
-            ...prev.meta,
-            ...draft.data.meta,
-            mentor: user?.mentor || "",
-            codeReviewer: user?.code_reviewer || "",
-            bootcamp: {day : nextday }
-          },
-        }));
-      }
-    } catch (error) {
-      console.error(error);
+        setIsInitializing(true);
+
+        const [draftRes, allRes] = await Promise.all([
+            dsrService.getDraftDsr(),
+            dsrService.getAllDsrs()
+        ]);
+
+        const nextDay = (allRes?.data?.length || 0) + 1;
+
+        if (draftRes?.data?.status) {
+            const draft = draftRes.data.data;
+
+            setData(prev => ({
+                ...prev,
+                ...draft,
+                meta: {
+                    ...prev.meta,
+                    ...draft.meta,
+
+                    mentor: user?.mentor ?? "",
+                    codeReviewer: user?.code_reviewer ?? "",
+
+                    bootcamp: {
+                        ...prev.meta?.bootcamp,
+                        ...draft.meta?.bootcamp,
+                        day: nextDay,
+                    },
+                },
+            }));
+        }
+
+    } catch (err) {
+        console.error(err);
     } finally {
-      setLoader(false);
+        setIsInitializing(false);
     }
-  };
+};
+
+if (isInitializing) {
+    return <FullScreenLoader loading />;
+}
 
   return (
     <>
